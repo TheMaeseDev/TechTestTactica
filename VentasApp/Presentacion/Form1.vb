@@ -40,4 +40,23 @@ Public Class Form1
             MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Try
+            Dim nuevaVenta As New Venta(0, Convert.ToInt32(TextBox7.Text), Convert.ToDateTime(TextBox8.Text), Convert.ToDecimal(TextBox9.Text))
+            Dim items As New List(Of VentaItem)
+
+            ' Crear ítems de prueba
+            items.Add(New VentaItem(0, 0, 1, 500, 2, 1000))
+            items.Add(New VentaItem(0, 0, 2, 300, 1, 300))
+
+            If VentaDAL.AgregarVenta(nuevaVenta, items) Then
+                MessageBox.Show("Venta registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show("No se pudo registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 End Class
