@@ -77,6 +77,8 @@
     <Compile Include="Datos\ClienteDAL.vb" />
     <Compile Include="Datos\ConexionBD.vb" />
     <Compile Include="Datos\ProductoDAL.vb" />
+    <Compile Include="Datos\VentaDAL.vb" />
+    <Compile Include="Datos\VentaItemDAL.vb" />
     <Compile Include="Entidades\Cliente.vb" />
     <Compile Include="Entidades\Producto.vb" />
     <Compile Include="Entidades\Venta.vb" />
