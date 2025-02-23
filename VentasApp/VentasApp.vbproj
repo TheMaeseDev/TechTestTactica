@@ -74,7 +74,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datos\ClienteDAL.vb" />
     <Compile Include="Datos\ConexionBD.vb" />
+    <Compile Include="Entidades\Cliente.vb" />
+    <Compile Include="Entidades\Producto.vb" />
+    <Compile Include="Entidades\Venta.vb" />
+    <Compile Include="Entidades\VentaItem.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -121,7 +126,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entidades\" />
     <Folder Include="Negocio\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
