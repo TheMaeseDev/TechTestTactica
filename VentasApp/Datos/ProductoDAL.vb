@@ -1,5 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Configuration
+Imports Entidades
 
 Public Class ProductoDAL
     ' Método para obtener la conexión desde App.config
@@ -88,5 +89,30 @@ Public Class ProductoDAL
         Catch ex As Exception
             Throw New Exception("Error al eliminar producto: " & ex.Message)
         End Try
+    End Function
+
+    'Metodo para buscar productos
+    Public Shared Function BuscarProductos(filtro As String) As List(Of Producto)
+        Dim listaProductos As New List(Of Producto)()
+
+        Try
+            Using con As SqlConnection = ObtenerConexion()
+                con.Open()
+                Dim query As String = "SELECT id, nombre, precio FROM productos WHERE nombre LIKE @filtro"
+                Using cmd As New SqlCommand(query, con)
+                    cmd.Parameters.AddWithValue("@filtro", "%" & filtro & "%")
+
+                    Using reader As SqlDataReader = cmd.ExecuteReader()
+                        While reader.Read()
+                            listaProductos.Add(New Producto(reader("id"), reader("nombre").ToString(), Convert.ToDecimal(reader("precio")), reader("nombre").ToString()))
+                        End While
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            Throw New Exception("Error al buscar productos: " & ex.Message)
+        End Try
+
+        Return listaProductos
     End Function
 End Class

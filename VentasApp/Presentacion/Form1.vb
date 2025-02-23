@@ -59,4 +59,31 @@ Public Class Form1
             MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Try
+            Dim clientes As List(Of Cliente) = ClienteDAL.BuscarClientes(TextBox10.Text)
+            DataGridView2.DataSource = clientes
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Try
+            Dim productos As List(Of Producto) = ProductoDAL.BuscarProductos(TextBox11.Text)
+            DataGridView3.DataSource = productos
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Try
+            Dim ventas As List(Of Venta) = VentaDAL.BuscarVentas(TextBox12.Text)
+            DataGridView4.DataSource = ventas
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 End Class
