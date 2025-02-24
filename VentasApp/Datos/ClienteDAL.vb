@@ -2,6 +2,7 @@
 Imports System.Configuration
 Imports Entidades
 
+
 Public Class ClienteDAL
     ' Método para obtener la conexión desde App.config
     Private Shared Function ObtenerConexion() As SqlConnection
@@ -89,5 +90,30 @@ Public Class ClienteDAL
         Catch ex As Exception
             Throw New Exception("Error al eliminar cliente: " & ex.Message)
         End Try
+    End Function
+
+    ' Metodo para busqueda de clientes
+    Public Shared Function BuscarClientes(filtro As String) As List(Of Cliente)
+        Dim listaClientes As New List(Of Cliente)()
+
+        Try
+            Using con As SqlConnection = ObtenerConexion()
+                con.Open()
+                Dim query As String = "SELECT id, cliente, telefono, correo FROM clientes WHERE cliente LIKE @filtro OR id LIKE @filtro"
+                Using cmd As New SqlCommand(query, con)
+                    cmd.Parameters.AddWithValue("@filtro", "%" & filtro & "%")
+
+                    Using reader As SqlDataReader = cmd.ExecuteReader()
+                        While reader.Read()
+                            listaClientes.Add(New Cliente(reader("id"), reader("cliente").ToString(), reader("telefono").ToString(), reader("correo").ToString()))
+                        End While
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            Throw New Exception("Error al buscar clientes: " & ex.Message)
+        End Try
+
+        Return listaClientes
     End Function
 End Class

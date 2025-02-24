@@ -76,4 +76,29 @@ Public Class VentaDAL
 
         Return listaVentas
     End Function
+
+    'Metodo para buscar ventas
+    Public Shared Function BuscarVentas(filtro As String) As List(Of Venta)
+        Dim listaVentas As New List(Of Venta)()
+
+        Try
+            Using con As SqlConnection = ObtenerConexion()
+                con.Open()
+                Dim query As String = "SELECT id, idcliente, fecha, total FROM ventas WHERE CAST(id AS NVARCHAR) LIKE @filtro OR CAST(idcliente AS NVARCHAR) LIKE @filtro"
+                Using cmd As New SqlCommand(query, con)
+                    cmd.Parameters.AddWithValue("@filtro", "%" & filtro & "%")
+
+                    Using reader As SqlDataReader = cmd.ExecuteReader()
+                        While reader.Read()
+                            listaVentas.Add(New Venta(reader("id"), reader("idcliente"), Convert.ToDateTime(reader("fecha")), Convert.ToDecimal(reader("total"))))
+                        End While
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            Throw New Exception("Error al buscar ventas: " & ex.Message)
+        End Try
+
+        Return listaVentas
+    End Function
 End Class
