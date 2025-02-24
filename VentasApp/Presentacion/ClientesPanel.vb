@@ -40,6 +40,7 @@
         AddHandler btnEliminar.Click, AddressOf EliminarCliente
 
         Dim btnBuscar As New Button With {.Text = "Buscar", .Top = 10, .Left = 490, .Width = 100}
+        AddHandler btnBuscar.Click, AddressOf BuscarCliente
 
         ' Agregar controles al panel
 
@@ -174,6 +175,32 @@
             ' Guardar el ID del cliente en una variable oculta
             txtNewNombre.Tag = fila.Cells("ID").Value
         End If
+    End Sub
+
+    ' Función para buscar clientes con filtros combinados
+    Private Sub BuscarCliente(sender As Object, e As EventArgs)
+        Try
+            ' Obtener los valores de los textboxes
+            Dim nombreFiltro As String = txtBuscarNombre.Text.Trim().ToLower()
+            Dim telefonoFiltro As String = txtBuscarTelefono.Text.Trim().ToLower()
+            Dim correoFiltro As String = txtBuscarCorreo.Text.Trim().ToLower()
+
+            ' Obtener la lista original de clientes
+            Dim listaClientes As List(Of Cliente) = ClienteDAL.ObtenerClientes()
+
+            ' Filtrar la lista según los valores ingresados
+            Dim listaFiltrada As List(Of Cliente) = listaClientes.Where(Function(c)
+                                                                            Dim coincideNombre As Boolean = String.IsNullOrEmpty(nombreFiltro) OrElse c.Nombre.ToLower().Contains(nombreFiltro)
+                                                                            Dim coincideTelefono As Boolean = String.IsNullOrEmpty(telefonoFiltro) OrElse c.Telefono.ToLower().Contains(telefonoFiltro)
+                                                                            Dim coincideCorreo As Boolean = String.IsNullOrEmpty(correoFiltro) OrElse c.Correo.ToLower().Contains(correoFiltro)
+                                                                            Return coincideNombre AndAlso coincideTelefono AndAlso coincideCorreo
+                                                                        End Function).ToList()
+
+            ' Asignar la lista filtrada al DataGridView
+            dgvClientes.DataSource = listaFiltrada
+        Catch ex As Exception
+            MessageBox.Show("Error al filtrar clientes: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
