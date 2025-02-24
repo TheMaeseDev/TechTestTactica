@@ -60,6 +60,7 @@ Public Class Form1
         End Try
     End Sub
 
+    'Buscar Cliente
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Try
             Dim clientes As List(Of Cliente) = ClienteDAL.BuscarClientes(TextBox10.Text)
@@ -85,5 +86,9 @@ Public Class Form1
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     End Sub
 End Class
